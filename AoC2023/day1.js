@@ -1,5 +1,31 @@
 const fs = require('fs');
 
+const numberMap = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    'four': 4,
+    'five': 5,
+    'six': 6,
+    'seven': 7,
+    'eight': 8,
+    'nine': 9,
+    // 'zero': 0,
+}
+
+function convertToNumber(str) {
+    let newStr = str.split("");
+    for (const key in numberMap) {
+        let substring = key;
+
+        while (newStr.join("").indexOf(substring) !== -1) {
+            newStr.splice(newStr.join("").indexOf(substring), substring.length, numberMap[substring])
+        }
+    }
+
+    // console.log(newStr.join(""));
+    return newStr.join("")
+}
 
 fs.readFile('./day1input.txt','utf-8',(err, data) => {
     if (err) {
@@ -7,7 +33,12 @@ fs.readFile('./day1input.txt','utf-8',(err, data) => {
     }
     let tempArr1;
     tempArr1 = data.split("\r\n");
-    console.log(tempArr1);
+    // console.log(tempArr1);
+
+    for (let i = 0; i < tempArr1.length; i++) {
+        tempArr1[i] = convertToNumber(tempArr1[i])
+        // console.log(tempArr1[i])
+    }
 
     let countTotal = 0;
 
@@ -30,12 +61,11 @@ fs.readFile('./day1input.txt','utf-8',(err, data) => {
         // }
         let text = (`${a.toString()}` + `${b.toString()}`)
         countTotal += Number(text);
+        console.log(`row ${i+1}:`, text, tempArr1[i])
     }
 
     console.log(countTotal);
-
     return countTotal
-
 })
 
 // day1
